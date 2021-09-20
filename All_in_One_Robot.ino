@@ -1,3 +1,5 @@
+https://create.arduino.cc/projecthub/embeddedlab786/all-in-one-robot-07cec0?ref=user&ref_id=598105&offset=1
+
 #include <SoftwareSerial.h>
 SoftwareSerial BT_Serial(2, 3); // RX, TX
 
@@ -6,12 +8,27 @@ const int RECV_PIN = A5;
 IRrecv irrecv(RECV_PIN);
 decode_results results;
 
+#include <AFMotor.h>
+AF_DCMotor motor1(1);
+AF_DCMotor motor2(2);
+AF_DCMotor motor3(3);
+AF_DCMotor motor4(4);
+
+/*
+***************************************************************************************************
+                                         For l298 
+***************************************************************************************************
+*/
+/*
 #define enA 10//Enable1 L298 Pin enA 
 #define in1 9 //Motor1  L298 Pin in1 
 #define in2 8 //Motor1  L298 Pin in1 
 #define in3 7 //Motor2  L298 Pin in1 
 #define in4 6 //Motor2  L298 Pin in1 
 #define enB 5 //Enable2 L298 Pin enB 
+*/
+
+
 
 #define servo A4
 
@@ -25,6 +42,8 @@ int distance_L, distance_F = 30, distance_R;
 long distance;
 int set = 20;
 
+int Speed = 150;
+
 int bt_ir_data; // variable to receive data from the serial port and IRremote
 int Speed = 130;  
 int mode=0;
@@ -32,18 +51,36 @@ int IR_data;
 
 void setup(){ // put your setup code here, to run once
 
+  motor1.setSpeed(Speed);
+  motor2.setSpeed(Speed);
+  motor3.setSpeed(Speed);
+  motor4.setSpeed(Speed);
+
 pinMode(R_S, INPUT); // declare if sensor as input  
 pinMode(L_S, INPUT); // declare ir sensor as input
 
 pinMode(echo, INPUT );// declare ultrasonic sensor Echo pin as input
 pinMode(trigger, OUTPUT); // declare ultrasonic sensor Trigger pin as Output  
 
+
+
+/*
+***************************************************************************************************
+                                         For l298 
+***************************************************************************************************
+*/
+/*
 pinMode(enA, OUTPUT); // declare as output for L298 Pin enA 
 pinMode(in1, OUTPUT); // declare as output for L298 Pin in1 
 pinMode(in2, OUTPUT); // declare as output for L298 Pin in2 
 pinMode(in3, OUTPUT); // declare as output for L298 Pin in3   
 pinMode(in4, OUTPUT); // declare as output for L298 Pin in4 
 pinMode(enB, OUTPUT); // declare as output for L298 Pin enB 
+
+
+*/
+
+
 
 irrecv.enableIRIn(); // Start the receiver
 irrecv.blink13(true);
@@ -195,36 +232,57 @@ void Check_side(){
 }
 
 void forword(){  //forword
+/*
+***************************************************************************************************
+                                         For l298 
+***************************************************************************************************
+*/
+/*
 digitalWrite(in1, HIGH); //Right Motor forword Pin 
 digitalWrite(in2, LOW);  //Right Motor backword Pin 
 digitalWrite(in3, LOW);  //Left Motor backword Pin 
 digitalWrite(in4, HIGH); //Left Motor forword Pin 
+*/
+    motor1.run(FORWARD);
+
+    motor3.run(FORWARD);
+ 
 }
 
 void backword(){ //backword
+
+/*
+***************************************************************************************************
+                                         For l298 
+***************************************************************************************************
+*/
+/*
 digitalWrite(in1, LOW);  //Right Motor forword Pin 
 digitalWrite(in2, HIGH); //Right Motor backword Pin 
 digitalWrite(in3, HIGH); //Left Motor backword Pin 
 digitalWrite(in4, LOW);  //Left Motor forword Pin 
+*/
+    motor1.run(BACKWARD);
+ 
+    motor3.run(BACKWARD);
+ 
 }
 
 void turnRight(){ //turnRight
+
+/*
+***************************************************************************************************
+                                         For l298 
+***************************************************************************************************
+*/
+/*
 digitalWrite(in1, LOW);  //Right Motor forword Pin 
 digitalWrite(in2, HIGH); //Right Motor backword Pin  
 digitalWrite(in3, LOW);  //Left Motor backword Pin 
 digitalWrite(in4, HIGH); //Left Motor forword Pin 
-}
-
-void turnLeft(){ //turnLeft
-digitalWrite(in1, HIGH); //Right Motor forword Pin 
-digitalWrite(in2, LOW);  //Right Motor backword Pin 
-digitalWrite(in3, HIGH); //Left Motor backword Pin 
-digitalWrite(in4, LOW);  //Left Motor forword Pin 
-}
-
-void Stop(){ //stop
-digitalWrite(in1, LOW); //Right Motor forword Pin 
-digitalWrite(in2, LOW); //Right Motor backword Pin 
-digitalWrite(in3, LOW); //Left Motor backword Pin 
-digitalWrite(in4, LOW); //Left Motor forword Pin 
+*/
+    motor1.run(FORWARD);
+ 
+    motor3.run(BACKWARD);
+  
 }
