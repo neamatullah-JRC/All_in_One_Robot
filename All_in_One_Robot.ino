@@ -286,3 +286,22 @@ digitalWrite(in4, HIGH); //Left Motor forword Pin
     motor3.run(BACKWARD);
   
 }
+
+void Stop(){ //stop
+
+/*
+***************************************************************************************************
+                                         For l298 
+***************************************************************************************************
+*/
+/*
+digitalWrite(in1, LOW); //Right Motor forword Pin 
+digitalWrite(in2, LOW); //Right Motor backword Pin 
+digitalWrite(in3, LOW); //Left Motor backword Pin 
+digitalWrite(in4, LOW); //Left Motor forword Pin 
+  */
+    motor1.run(RELEASE);
+    
+    motor3.run(RELEASE);
+ 
+}
